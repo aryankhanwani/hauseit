@@ -67,9 +67,9 @@ const Header = () => {
             <a href="#why" className="text-sm font-medium text-neutral-600 hover:text-neutral-950 tracking-tight font-geist">Why Us</a>
             <a href="#trust" className="text-sm font-medium text-neutral-600 hover:text-neutral-950 tracking-tight font-geist">Trust</a>
           </nav>
-          <a href="#cta" className="group inline-flex items-center gap-2 text-sm font-medium text-neutral-50 tracking-tight bg-neutral-900 hover:bg-neutral-800 border border-neutral-200/60 rounded-full px-4 py-2">
-            <span className="font-geist">Talk to an Advisor</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" data-lucide="arrow-right" className="lucide lucide-arrow-right w-4 h-4 stroke-[1.5]"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          <a href="#guide" className="group inline-flex items-center gap-2 text-sm font-medium text-neutral-50 tracking-tight bg-neutral-900 hover:bg-neutral-800 border border-neutral-200/60 rounded-full px-4 py-2">
+            <span className="font-geist">Get the Guide</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" data-lucide="book" className="lucide lucide-book w-4 h-4 stroke-[1.5]"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
           </a>
         </div>
       </div>
