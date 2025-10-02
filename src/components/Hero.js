@@ -8,7 +8,7 @@ const Hero = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-50 via-white to-transparent"></div>
         </div>
 
-        <div className="relative sm:p-8 pt-6 pr-6 pb-6 pl-6">
+        <div className="relative p-4 sm:p-6 lg:p-8">
           <div className="grid lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-12">
               <div className="inline-flex items-center gap-2 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-3 py-1.5">
@@ -22,7 +22,7 @@ const Hero = () => {
                 Hauseit helps buyers, sellers and landlords make confident decisions with local expertise, clear advice and modern tools—so every move is a smart move.
               </p>
 
-              <div className="mt-6 grid sm:grid-cols-3 gap-3">
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-3">
                   <div className="text-xl font-semibold tracking-tight text-neutral-950 font-geist">5,800+</div>
                   <p className="text-[11px] text-neutral-500 mt-0.5 font-geist">Clients Served</p>
@@ -44,7 +44,7 @@ const Hero = () => {
             <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop" alt="Modern UK townhouse facade" className="w-full h-[52vh] sm:h-[60vh] object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent pointer-events-none"></div>
 
-            <div className="absolute inset-x-0 bottom-0 sm:p-8 pt-6 pr-6 pb-6 pl-6">
+            <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8">
               <div className="max-w-3xl">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl text-neutral-950 drop-shadow-[0_1px_0_rgba(255,255,255,0.6)] font-geist tracking-tighter font-medium">About Hauseit</h2>
                 <p className="mt-2 sm:mt-3 text-neutral-800 text-base sm:text-lg leading-relaxed drop-shadow-[0_1px_0_rgba(255,255,255,0.6)] font-geist">
@@ -54,7 +54,7 @@ const Hero = () => {
 
               {/* Quick highlights */}
               <div className="mt-5">
-                <div className="w-full sm:p-4 bg-white/85 border border-neutral-200 rounded-2xl pt-3 pr-3 pb-3 pl-3 backdrop-blur-xl" style={{backdropFilter: 'blur(20px) saturate(180%)'}}>
+                <div className="w-full p-3 sm:p-4 bg-white/85 border border-neutral-200 rounded-2xl backdrop-blur-xl" style={{backdropFilter: 'blur(20px) saturate(180%)'}}>
                   <div className="flex flex-wrap gap-2 items-center">
                     <span className="text-xs text-neutral-600 font-geist">Highlights:</span>
                     <span className="inline-flex items-center gap-1.5 text-xs font-medium tracking-tight bg-neutral-50 hover:bg-neutral-100 rounded-full px-3 py-1.5 border border-neutral-200 text-neutral-800 backdrop-blur-sm transition-all font-geist">
