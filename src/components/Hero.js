@@ -42,19 +42,20 @@ const Hero = () => {
           {/* Media panel */}
           <div className="mt-8 relative rounded-2xl overflow-hidden border border-neutral-200">
             <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop" alt="Modern UK townhouse facade" className="w-full h-[52vh] sm:h-[60vh] object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-transparent pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/20 pointer-events-none"></div>
 
             <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8">
               <div className="max-w-3xl">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl text-neutral-950 drop-shadow-[0_1px_0_rgba(255,255,255,0.6)] font-geist tracking-tighter font-medium">About Hauseit</h2>
-                <p className="mt-2 sm:mt-3 text-neutral-800 text-base sm:text-lg leading-relaxed drop-shadow-[0_1px_0_rgba(255,255,255,0.6)] font-geist">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl text-neutral-950 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] font-geist tracking-tighter font-medium">About Hauseit</h2>
+                <p className="mt-2 sm:mt-3 text-neutral-900 text-base sm:text-lg leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] font-geist">
                   A modern agency built on service, discretion and results—tailored for buyers, sellers and landlords across the UK.
                 </p>
               </div>
 
               {/* Quick highlights */}
               <div className="mt-5">
-                <div className="w-full p-3 sm:p-4 bg-white/85 border border-neutral-200 rounded-2xl backdrop-blur-xl" style={{backdropFilter: 'blur(20px) saturate(180%)'}}>
+                <div className="w-full p-3 sm:p-4 bg-white/95 border border-neutral-200 rounded-2xl backdrop-blur-xl shadow-lg" style={{backdropFilter: 'blur(20px) saturate(180%)'}}>
                   <div className="flex flex-wrap gap-2 items-center">
                     <span className="text-xs text-neutral-600 font-geist">Highlights:</span>
                     <span className="inline-flex items-center gap-1.5 text-xs font-medium tracking-tight bg-neutral-50 hover:bg-neutral-100 rounded-full px-3 py-1.5 border border-neutral-200 text-neutral-800 backdrop-blur-sm transition-all font-geist">
