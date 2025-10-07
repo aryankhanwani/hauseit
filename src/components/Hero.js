@@ -1,84 +1,92 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Hero = () => {
+  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const STORAGE_KEY = 'offerCountdownEnd';
+    const now = Date.now();
+    let end = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+    if (!end || end < now) {
+      end = now + 24 * 60 * 60 * 1000;
+      localStorage.setItem(STORAGE_KEY, String(end));
+    }
+
+    const tick = () => {
+      const remaining = Math.max(0, end - Date.now());
+      const hours = Math.floor(remaining / (1000 * 60 * 60));
+      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+      setTimeLeft({ hours, minutes, seconds });
+      if (remaining === 0) {
+        const newEnd = Date.now() + 24 * 60 * 60 * 1000;
+        localStorage.setItem(STORAGE_KEY, String(newEnd));
+      }
+    };
+
+    const interval = setInterval(tick, 1000);
+    tick();
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="about" className="max-w-7xl sm:px-6 mt-8 mx-auto mb-8 px-4">
-      <div className="relative sm:mt-12 overflow-hidden shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_12px_24px_-12px_rgba(0,0,0,0.12)] bg-white border border-neutral-200 rounded-[40px] backdrop-blur">
+      <div className="relative sm:mt-12 overflow-hidden glass-ultra glass-glow rounded-[40px]">
+        {/* Ultra Enhanced Glass Background Effects */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-neutral-50 via-white to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-white/50 via-white/30 to-white/15 dark:from-neutral-900/70 dark:via-neutral-900/50 dark:to-neutral-900/25"></div>
+          <div className="absolute inset-0 bg-gradient-to-tl from-white/40 via-transparent to-white/20 dark:from-neutral-800/60 dark:via-transparent dark:to-neutral-800/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-white/35 via-white/15 to-white/25 dark:from-neutral-700/50 dark:via-neutral-700/25 dark:to-neutral-700/35"></div>
+          {/* <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/80 to-transparent dark:from-transparent dark:via-neutral-700/80 dark:to-transparent"></div> */}
         </div>
+        
+        {/* Large Floating Glass Orbs */}
+        <div className="absolute -top-24 -right-24 w-56 h-56 bg-gradient-to-br from-white/50 to-transparent dark:from-neutral-800/60 dark:to-transparent rounded-full blur-3xl opacity-80 dark:opacity-60"></div>
+        <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-gradient-to-tl from-white/40 to-transparent dark:from-neutral-700/50 dark:to-transparent rounded-full blur-2xl opacity-70 dark:opacity-50"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-white/20 to-transparent dark:from-neutral-600/30 dark:to-transparent rounded-full blur-3xl opacity-60 dark:opacity-40"></div>
 
-        <div className="relative p-4 sm:p-6 lg:p-8">
+        <div className="relative p-4 sm:p-6 lg:p-8 z-10">
           <div className="grid lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-12">
-              <div className="inline-flex items-center gap-2 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-3 py-1.5">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" data-lucide="flag" className="lucide lucide-flag w-3.5 h-3.5 stroke-[1.5]"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><path d="M4 22v-7"></path></svg>
-                <span className="font-geist">UK‑based • Independent • Full‑service agency</span>
+              <div className="inline-flex items-center gap-2 text-xs font-medium text-emerald-700 bg-emerald-50/60 dark:text-emerald-300 dark:bg-emerald-900/30 glass-frosted rounded-full px-3 py-1.5 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-100/70 to-transparent dark:from-emerald-900/50 dark:to-transparent"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" data-lucide="pound-sterling" className="w-3.5 h-3.5 stroke-[1.5] relative z-10"><path d="M18 7c0-3-2.239-5-5-5s-5 2-5 5c0 4 3 6 3 9"></path><path d="M7 15h8"></path><path d="M7 21h10"></path></svg>
+                <span className="font-geist relative z-10">Limited-time: Get the full guide for £10</span>
               </div>
-              <h1 className="text-[9.5vw] sm:text-[8vw] md:text-[6.5vw] lg:text-[5vw] leading-[0.95] font-medium text-neutral-950 tracking-tighter font-geist mt-4">
-                Property moves, made simple
+              <h1 className="text-[8.8vw] sm:text-[7.4vw] md:text-[6vw] lg:text-[4.6vw] leading-[0.95] font-medium text-neutral-950 dark:text-neutral-100 tracking-tighter font-garamond mt-4">
+                Turn Your Property Into a Profitable Airbnb – For Just £10
               </h1>
-              <p className="mt-3 sm:mt-4 text-base sm:text-lg leading-relaxed text-neutral-600 font-geist">
-                Hauseit helps buyers, sellers and landlords make confident decisions with local expertise, clear advice and modern tools—so every move is a smart move.
+              <p className="mt-3 sm:mt-4 text-base sm:text-lg leading-relaxed text-neutral-600 dark:text-neutral-300 font-geist max-w-3xl">
+                The Complete UK Guide to Airbnb Hosting gives you every checklist, template, and insider tip you need to launch a compliant, five‑star short‑let in the UK.
               </p>
 
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-3">
-                  <div className="text-xl font-semibold tracking-tight text-neutral-950 font-geist">5,800+</div>
-                  <p className="text-[11px] text-neutral-500 mt-0.5 font-geist">Clients Served</p>
-                </div>
-                <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-3">
-                  <div className="text-xl font-semibold tracking-tight text-neutral-950 font-geist">4.9</div>
-                  <p className="text-[11px] text-neutral-500 mt-0.5 font-geist">Client Rating</p>
-                </div>
-                <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-3">
-                  <div className="text-xl font-semibold tracking-tight text-neutral-950 font-geist">28</div>
-                  <p className="text-[11px] text-neutral-500 mt-0.5 font-geist">UK Markets</p>
-                </div>
-              </div>
+              
+
+
             </div>
           </div>
 
-          {/* Media panel */}
-          <div className="mt-8 relative rounded-2xl overflow-hidden border border-neutral-200">
-            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop" alt="Modern UK townhouse facade" className="w-full h-[52vh] sm:h-[60vh] object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-transparent pointer-events-none"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/20 pointer-events-none"></div>
-
-            <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8">
-              <div className="max-w-3xl">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl text-neutral-950 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] font-geist tracking-tighter font-medium">About Hauseit</h2>
-                <p className="mt-2 sm:mt-3 text-neutral-900 text-base sm:text-lg leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] font-geist">
-                  A modern agency built on service, discretion and results—tailored for buyers, sellers and landlords across the UK.
-                </p>
-              </div>
-
-              {/* Quick highlights */}
-              <div className="mt-5">
-                <div className="w-full p-3 sm:p-4 bg-white/95 border border-neutral-200 rounded-2xl backdrop-blur-xl shadow-lg" style={{backdropFilter: 'blur(20px) saturate(180%)'}}>
-                  <div className="flex flex-wrap gap-2 items-center">
-                    <span className="text-xs text-neutral-600 font-geist">Highlights:</span>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium tracking-tight bg-neutral-50 hover:bg-neutral-100 rounded-full px-3 py-1.5 border border-neutral-200 text-neutral-800 backdrop-blur-sm transition-all font-geist">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" data-lucide="home" className="lucide lucide-home w-3.5 h-3.5 stroke-[1.5]"><path d="M3 9l9-7 9 7"></path><path d="M9 22V12h6v10"></path><path d="M2 22h20"></path></svg>
-                      Local market insight
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium tracking-tight bg-neutral-50 hover:bg-neutral-100 rounded-full px-3 py-1.5 border border-neutral-200 text-neutral-800 backdrop-blur-sm transition-all font-geist">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" data-lucide="handshake" className="lucide lucide-handshake w-3.5 h-3.5 stroke-[1.5]"><path d="M11.5 10.5 7 15a2.5 2.5 0 0 0 3.5 3.5l2.5-2.5"></path><path d="M21 8s-2.5-2.5-4-4l-6 6"></path><path d="M3 8s2.5-2.5 4-4l6 6"></path><path d="M16 19l2.5-2.5A2.5 2.5 0 0 0 15 13l-1-.5"></path><path d="M4 13l5 5"></path><path d="M20 8v5"></path><path d="M4 8v5"></path></svg>
-                      Dedicated negotiators
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium tracking-tight bg-neutral-50 hover:bg-neutral-100 rounded-full px-3 py-1.5 border border-neutral-200 text-neutral-800 backdrop-blur-sm transition-all font-geist">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" data-lucide="pound-sterling" className="lucide lucide-pound-sterling w-3.5 h-3.5 stroke-[1.5]"><path d="M18 7c0-3-2.239-5-5-5s-5 2-5 5c0 4 3 6 3 9"></path><path d="M7 15h8"></path><path d="M7 21h10"></path></svg>
-                      Transparent fees
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium tracking-tight bg-neutral-50 hover:bg-neutral-100 rounded-full px-3 py-1.5 border border-neutral-200 text-neutral-800 backdrop-blur-sm transition-all font-geist">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" data-lucide="sparkles" className="lucide lucide-sparkles w-3.5 h-3.5 stroke-[1.5]"><path d="M12 3v6"></path><path d="M9 6h6"></path><path d="M5 20l2-2-2-2-2 2 2 2z"></path><path d="M19 14l2-2-2-2-2 2 2 2z"></path></svg>
-                      Modern tools
-                    </span>
-                  </div>
-                </div>
-              </div>
+          <div className="mt-8 relative rounded-2xl overflow-hidden glass-frosted glass-glow">
+            {/* Enhanced Video Container Glass Effects */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-white/20 dark:from-neutral-800/50 dark:via-transparent dark:to-neutral-800/30 rounded-2xl"></div>
+            <div className="absolute inset-0 bg-gradient-to-tl from-white/30 via-transparent to-white/15 dark:from-neutral-700/40 dark:via-transparent dark:to-neutral-700/25 rounded-2xl"></div>
+            {/* <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/80 to-transparent dark:from-transparent dark:via-neutral-700/80 dark:to-transparent"></div> */}
+            
+            <div className="w-full h-[52vh] sm:h-[60vh] relative z-10">
+              <iframe
+                className="w-full h-full rounded-2xl"
+                src="https://www.youtube.com/embed/0CKkg2TQTdM?rel=0&modestbranding=1&controls=1"
+                title="Guide intro video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
             </div>
-          </div> {/* /media panel */}
+
+            <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8 z-10">
+              {/* Optional overlay content can go here */}
+            </div>
+          </div>
         </div>
       </div>
     </section>
