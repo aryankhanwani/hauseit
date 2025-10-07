@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useOfferCountdown from './useOfferCountdown';
-import PDFViewer from './PDFViewer';
+import SimplePDFViewer from './SimplePDFViewer';
 
 const Guide = () => {
   const [isPDFOpen, setIsPDFOpen] = useState(false);
@@ -147,7 +147,7 @@ const Guide = () => {
         </div>
       </div>
       
-      <PDFViewer 
+      <SimplePDFViewer 
         isOpen={isPDFOpen} 
         onClose={closePDF} 
         pdfUrl="/sample-guide-10pages.pdf" 
