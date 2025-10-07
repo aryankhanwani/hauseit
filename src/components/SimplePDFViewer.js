@@ -4,8 +4,6 @@ const SimplePDFViewer = ({ isOpen, onClose, pdfUrl }) => {
   const [pdfLoaded, setPdfLoaded] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
   const [showPurchasePopup, setShowPurchasePopup] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 10;
 
   useEffect(() => {
     if (isOpen) {
@@ -29,7 +27,6 @@ const SimplePDFViewer = ({ isOpen, onClose, pdfUrl }) => {
       setPdfLoaded(false);
       setShowFallback(false);
       setShowPurchasePopup(false);
-      setCurrentPage(1);
     }
   }, [isOpen, pdfLoaded]);
 
@@ -55,47 +52,15 @@ const SimplePDFViewer = ({ isOpen, onClose, pdfUrl }) => {
         {/* PDF Content */}
         <div className="relative h-full overflow-hidden">
           {!showFallback ? (
-            <div className="h-full flex flex-col">
-              {/* Page Navigation */}
-              <div className="flex items-center justify-between p-2 sm:p-3 bg-neutral-50 dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700">
-                <button
-                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                  className="flex items-center gap-1 px-2 py-1 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M15 18l-6-6 6-6"/>
-                  </svg>
-                  <span className="hidden sm:inline">Previous</span>
-                </button>
-                
-                <span className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 font-medium">
-                  Page {currentPage} of {totalPages}
-                </span>
-                
-                <button
-                  onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                  disabled={currentPage === totalPages}
-                  className="flex items-center gap-1 px-2 py-1 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                >
-                  <span className="hidden sm:inline">Next</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M9 18l6-6-6-6"/>
-                  </svg>
-                </button>
-              </div>
-              
-              {/* PDF Frame */}
-              <div className="flex-1 overflow-hidden">
-                <iframe
-                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH&page=${currentPage}&pagemode=none&zoom=FitH&disableprint=1&disablesave=1`}
-                  className="w-full h-full border-0"
-                  title={`Sample Guide PDF - Page ${currentPage}`}
-                  style={{ minHeight: '300px' }}
-                  onLoad={() => setPdfLoaded(true)}
-                  onError={() => setShowFallback(true)}
-                />
-              </div>
+            <div className="h-full">
+              <iframe
+                src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH&page=1&pagemode=none&zoom=100&disableprint=1&disablesave=1`}
+                className="w-full h-full border-0"
+                title="Sample Guide PDF - Pages 1-10"
+                style={{ minHeight: '400px' }}
+                onLoad={() => setPdfLoaded(true)}
+                onError={() => setShowFallback(true)}
+              />
             </div>
           ) : (
             <div className="h-full flex items-center justify-center p-4 sm:p-8">

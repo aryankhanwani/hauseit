@@ -92,9 +92,9 @@ const WhyHauseit = () => {
                   </div>
                   <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 font-geist">Affordable, professional insight</h3>
                 </div>
-                <p className="text-sm text-neutral-600 dark:text-neutral-300 font-geist mb-4">Get industry-level knowledge and tools worth hundreds for just £10 — a tiny investment with big returns.</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-300 font-geist mb-4">Get industry-level knowledge and tools worth hundreds for just £29 — a tiny investment with big returns.</p>
                 <ul className="space-y-2 text-sm text-neutral-600 dark:text-neutral-300 font-geist">
-                  <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 bg-neutral-900 dark:bg-neutral-100 rounded-full flex-shrink-0"></span>£10 one-time purchase</li>
+                  <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 bg-neutral-900 dark:bg-neutral-100 rounded-full flex-shrink-0"></span>£29 one-time purchase</li>
                   <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 bg-neutral-900 dark:bg-neutral-100 rounded-full flex-shrink-0"></span>Lifetime access + free updates</li>
                   <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 bg-neutral-900 dark:bg-neutral-100 rounded-full flex-shrink-0"></span>No subscription, no upsells</li>
                 </ul>

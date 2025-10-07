@@ -51,10 +51,10 @@ const Hero = () => {
               <div className="inline-flex items-center gap-2 text-xs font-medium text-emerald-700 bg-emerald-50/60 dark:text-emerald-300 dark:bg-emerald-900/30 glass-frosted rounded-full px-3 py-1.5 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-100/70 to-transparent dark:from-emerald-900/50 dark:to-transparent"></div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" data-lucide="pound-sterling" className="w-3.5 h-3.5 stroke-[1.5] relative z-10"><path d="M18 7c0-3-2.239-5-5-5s-5 2-5 5c0 4 3 6 3 9"></path><path d="M7 15h8"></path><path d="M7 21h10"></path></svg>
-                <span className="font-geist relative z-10">Limited-time: Get the full guide for £10</span>
+                <span className="font-geist relative z-10">Limited-time: Get the full guide for £29</span>
               </div>
               <h1 className="text-[8.8vw] sm:text-[7.4vw] md:text-[6vw] lg:text-[4.6vw] leading-[0.95] font-medium text-neutral-950 dark:text-neutral-100 tracking-tighter font-garamond mt-4">
-                Turn Your Property Into a Profitable Airbnb – For Just £10
+                Turn Your Property Into a Profitable Airbnb – For Just £29
               </h1>
               <p className="mt-3 sm:mt-4 text-base sm:text-lg leading-relaxed text-neutral-600 dark:text-neutral-300 font-geist max-w-3xl">
                 The Complete UK Guide to Airbnb Hosting gives you every checklist, template, and insider tip you need to launch a compliant, five‑star short‑let in the UK.
