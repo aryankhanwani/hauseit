@@ -75,7 +75,7 @@ const Hero = () => {
             <div className="w-full h-[52vh] sm:h-[60vh] relative z-10">
               <iframe
                 className="w-full h-full rounded-2xl"
-                src="https://www.youtube.com/embed/0CKkg2TQTdM?rel=0&modestbranding=1&controls=1"
+                src="https://www.youtube.com/embed/0CKkg2TQTdM?rel=0&modestbranding=1&controls=0&autoplay=1&mute=1"
                 title="Guide intro video"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
