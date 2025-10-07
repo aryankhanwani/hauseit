@@ -50,60 +50,15 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
         {/* PDF Content */}
         <div className="relative h-full overflow-hidden">
           {!showFallback ? (
-            <div className="h-full flex flex-col">
-              {/* Mobile PDF Navigation */}
-              <div className="sm:hidden bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700 p-3 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Page 1 of 10</span>
-                  <div className="flex gap-1">
-                    {[1,2,3,4,5,6,7,8,9,10].map((page) => (
-                      <div key={page} className={`w-1.5 h-1.5 rounded-full ${page === 1 ? 'bg-emerald-500' : 'bg-neutral-300 dark:bg-neutral-600'}`}></div>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button 
-                    onClick={() => setShowFallback(true)}
-                    className="text-xs text-emerald-600 dark:text-emerald-400 font-medium"
-                  >
-                    View Content
-                  </button>
-                </div>
-              </div>
-              
-              {/* PDF Container */}
-              <div className="flex-1 relative">
-                <iframe
-                  src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH&page=1&pagemode=none&zoom=100&disableprint=1&disablesave=1`}
-                  className="w-full h-full border-0"
-                  title="Sample Guide PDF - Pages 1-10"
-                  style={{ minHeight: '400px' }}
-                  onLoad={() => setPdfLoaded(true)}
-                  onError={() => setShowFallback(true)}
-                />
-                
-                {/* Mobile PDF Overlay Instructions */}
-                <div className="sm:hidden absolute top-4 left-4 right-4 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm rounded-lg p-3 border border-neutral-200 dark:border-neutral-700">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                      </svg>
-                      <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Sample Pages 1-10</span>
-                    </div>
-                    <button 
-                      onClick={() => setShowFallback(true)}
-                      className="text-xs text-emerald-600 dark:text-emerald-400 font-medium hover:underline"
-                    >
-                      View Summary
-                    </button>
-                  </div>
-                  <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
-                    Scroll to view all pages • Tap "View Summary" for overview
-                  </p>
-                </div>
-              </div>
+            <div className="h-full">
+              <iframe
+                src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH&page=1&pagemode=none&zoom=100&disableprint=1&disablesave=1`}
+                className="w-full h-full border-0"
+                title="Sample Guide PDF - Pages 1-10"
+                style={{ minHeight: '400px' }}
+                onLoad={() => setPdfLoaded(true)}
+                onError={() => setShowFallback(true)}
+              />
             </div>
           ) : (
             <div className="h-full flex items-center justify-center p-4 sm:p-8">
@@ -179,50 +134,26 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
                     </span>
                   </div>
                 </div>
-
-                {/* Mobile Back to PDF Button */}
-                <div className="sm:hidden mb-4">
-                  <button 
-                    onClick={() => setShowFallback(false)}
-                    className="glass-button w-full inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-2 transition-colors"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                    </svg>
-                    Back to PDF View
-                  </button>
-                </div>
               </div>
             </div>
           )}
           
-          {/* Mobile-only Action Buttons */}
+          {/* Mobile-only Open PDF button */}
           <div className="absolute bottom-0 left-0 right-0 sm:hidden z-20">
             <div className="bg-gradient-to-t from-white dark:from-neutral-900 via-white/95 dark:via-neutral-900/95 to-transparent p-3">
-              <div className="flex gap-2 justify-center">
-                <button 
-                  onClick={() => setShowFallback(true)}
-                  className="glass-button flex-1 inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-2 transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                  </svg>
-                  View Summary
-                </button>
+              <div className="flex justify-center">
                 <a 
                   href={pdfUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="glass-button-primary flex-1 inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-2 transition-colors"
+                  className="glass-button inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-2 transition-colors shadow-lg"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  Open in New Tab
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 -mr-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                     <path d="M15 3h6v6"></path>
                     <path d="M10 14L21 3"></path>
                   </svg>
-                  Open PDF
                 </a>
               </div>
             </div>
