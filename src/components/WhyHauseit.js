@@ -1,6 +1,7 @@
 import React from 'react';
 
 const WhyHauseit = () => {
+  const checkoutUrl = process.env.REACT_APP_PODIA_CHECKOUT_URL || '#';
   return (
     <section id="why" className="max-w-7xl sm:px-6 mx-auto px-4 py-8 sm:py-12">
       <div className="relative overflow-hidden rounded-[32px] glass-ultra glass-glow p-6 sm:p-10">
@@ -111,7 +112,7 @@ const WhyHauseit = () => {
             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="m5 13 4 4L19 7"></path></svg>
             <p className="text-sm font-medium font-geist">Instant download. Free updates included.</p>
           </div>
-               <a href="#guide" className="glass-button-primary inline-flex items-center gap-2 rounded-full text-sm font-medium px-4 py-2 transition relative overflow-hidden group">
+               <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className="glass-button-primary inline-flex items-center gap-2 rounded-full text-sm font-medium px-4 py-2 transition relative overflow-hidden group">
                  <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent dark:from-neutral-700/20 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                  <span className="relative z-10">Get the guide — £29</span>
                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 -mr-0.5 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>

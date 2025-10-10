@@ -4,6 +4,7 @@ const SimplePDFViewer = ({ isOpen, onClose, pdfUrl }) => {
   const [pdfLoaded, setPdfLoaded] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
   const [showPurchasePopup, setShowPurchasePopup] = useState(false);
+  const checkoutUrl = process.env.REACT_APP_PODIA_CHECKOUT_URL || '#';
 
   useEffect(() => {
     if (isOpen) {
@@ -230,8 +231,9 @@ const SimplePDFViewer = ({ isOpen, onClose, pdfUrl }) => {
                   <button 
                     onClick={() => {
                       setShowPurchasePopup(false);
-                      // You can add purchase logic here
-                      console.log('Purchase clicked');
+                      if (checkoutUrl && checkoutUrl !== '#') {
+                        window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
+                      }
                     }}
                     className="glass-button-primary w-full inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-3 transition-colors"
                   >

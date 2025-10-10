@@ -6,6 +6,7 @@ const Guide = () => {
   const [isPDFOpen, setIsPDFOpen] = useState(false);
   const FIFTEEN_DAYS = 15 * 24 * 60 * 60 * 1000;
   const timeLeft = useOfferCountdown('offerCountdownEnd15', FIFTEEN_DAYS);
+  const checkoutUrl = process.env.REACT_APP_PODIA_CHECKOUT_URL || '#';
 
   const openPDF = () => setIsPDFOpen(true);
   const closePDF = () => setIsPDFOpen(false);
@@ -120,7 +121,7 @@ const Guide = () => {
                         </div>
 
                         <div className="mt-4 flex flex-col gap-2">
-                          <a href="#" className="glass-button-primary inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-2 relative overflow-hidden group">
+                          <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className="glass-button-primary inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-2 relative overflow-hidden group">
                             <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent dark:from-neutral-700/20 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                             <span className="relative z-10">Buy now — £29</span>
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 -mr-0.5 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>

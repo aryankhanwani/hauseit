@@ -41,6 +41,16 @@ npm start
 
 3. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+### Environment Variables
+
+Create a `.env` file in the project root with:
+
+```
+REACT_APP_PODIA_CHECKOUT_URL=https://your-podia-checkout-link
+```
+
+Restart the dev server after changing env vars.
+
 ### Available Scripts
 
 - `npm start` - Runs the app in development mode
