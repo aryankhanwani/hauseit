@@ -75,14 +75,16 @@ const Hero = () => {
             <div className="w-full h-[52vh] sm:h-[60vh] relative z-10">
               <video
                 className="w-full h-full rounded-2xl object-cover"
-                src="/imran-video-1.mp4"
                 title="Guide intro video"
                 autoPlay
                 muted
                 loop
                 playsInline
                 controls
+                preload="metadata"
+                poster=""
               >
+                <source src="/imran-video-1.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>
