@@ -75,7 +75,7 @@ const Hero = () => {
             <div className="w-full h-[52vh] sm:h-[60vh] relative z-10">
               <video
                 className="w-full h-full rounded-2xl object-cover"
-                src="/imran-video.mp4"
+                src="/imran-video-1.mp4"
                 title="Guide intro video"
                 autoPlay
                 muted
