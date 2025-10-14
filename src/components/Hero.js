@@ -73,14 +73,18 @@ const Hero = () => {
             {/* <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/80 to-transparent dark:from-transparent dark:via-neutral-700/80 dark:to-transparent"></div> */}
             
             <div className="w-full h-[52vh] sm:h-[60vh] relative z-10">
-              <iframe
-                className="w-full h-full rounded-2xl"
-                src="https://www.youtube.com/embed/0CKkg2TQTdM?rel=0&modestbranding=1&controls=0&autoplay=1&mute=1"
+              <video
+                className="w-full h-full rounded-2xl object-cover"
+                src="/imran-video.mp4"
                 title="Guide intro video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              ></iframe>
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls
+              >
+                Your browser does not support the video tag.
+              </video>
             </div>
 
             <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8 z-10">
