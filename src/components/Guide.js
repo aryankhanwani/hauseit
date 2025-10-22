@@ -47,12 +47,19 @@ const Guide = () => {
                   </div>
                   <p className="mt-1 text-neutral-600 dark:text-neutral-300 text-sm font-geist">Includes editable templates and checklists.</p>
 
-                  <div className="mt-5 flex items-baseline gap-3">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-4xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100 font-geist">£10</span>
-                      <span className="text-lg text-neutral-400 dark:text-neutral-500 line-through">£29</span>
+                  <div className="mt-5 space-y-2">
+                    <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 bg-emerald-50/60 dark:text-emerald-300 dark:bg-emerald-900/30 glass-frosted rounded-full px-2.5 py-1 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-100/70 to-transparent dark:from-emerald-900/50 dark:to-transparent"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                      <span className="relative z-10">Launch Offer - 66% Off</span>
                     </div>
-                    <span className="text-xs text-neutral-500 dark:text-neutral-400">one‑time • lifetime access</span>
+                    <div className="flex items-baseline gap-3">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-4xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100 font-geist">£10</span>
+                        <span className="text-lg text-neutral-400 dark:text-neutral-500 line-through">£29</span>
+                      </div>
+                      <span className="text-xs text-neutral-500 dark:text-neutral-400">one‑time • lifetime access</span>
+                    </div>
                   </div>
 
                   <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-6 text-neutral-700 dark:text-neutral-300">
