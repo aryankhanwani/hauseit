@@ -95,7 +95,7 @@ const Author = () => {
             {/* Social Links */}
             <div className="mt-6">
               <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 font-geist mb-3">Connect with Imran</h3>
-              <div className="flex gap-3">
+              <div className="flex gap-3 flex-wrap">
                 <a 
                   href="https://instagram.com/imranbashir_hauseit" 
                   target="_blank" 
