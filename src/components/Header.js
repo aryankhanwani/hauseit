@@ -5,9 +5,11 @@ const Header = () => {
     const root = document.documentElement;
     const isDark = root.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
   };
 
   React.useEffect(() => {
+    localStorage.setItem('theme','dark');
     const saved = localStorage.getItem('theme');
     if (saved === 'dark') {
       document.documentElement.classList.add('dark');
@@ -85,11 +87,11 @@ const Header = () => {
             <a href="#trust" className="text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-neutral-950 dark:hover:text-white tracking-tight font-geist transition-all duration-200 hover:bg-white/80 dark:hover:bg-neutral-800/20 border border-transparent hover:border-white/30 dark:hover:border-neutral-700/30 px-3 py-1.5 rounded-full">Trust</a>
           </nav>
           <div className="flex items-center gap-2">
-            <button onClick={toggleTheme} aria-label="Toggle theme" className="glass-button inline-flex items-center gap-2 rounded-full text-sm font-medium px-3 py-1.5 relative overflow-hidden group transition-all duration-200">
+            {/* <button onClick={toggleTheme} aria-label="Toggle theme" className="glass-button inline-flex items-center gap-2 rounded-full text-sm font-medium px-3 py-1.5 relative overflow-hidden group transition-all duration-200">
               <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent dark:from-neutral-700/20 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>
               <span className="hidden sm:inline font-geist relative z-10">Theme</span>
-            </button>
+            </button> */}
             <a href="#guide" className="group glass-button-primary inline-flex items-center gap-2 text-sm font-medium tracking-tight rounded-full px-4 py-2 relative overflow-hidden transition-all duration-200">
               <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent dark:from-neutral-700/20 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
               <span className="font-geist relative z-10">Get the Guide</span>

@@ -14,14 +14,14 @@ const OfferBar = () => {
           <div className="flex w-full sm:w-auto items-start sm:items-center gap-2 relative z-10">
             <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-medium text-white bg-red-600 rounded-full px-2 py-1 sm:px-2.5">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
-              Offer ends in 14 days
+              Launch Offer - Limited Time
             </span>
-            <div className="text-[13px] sm:text-base font-medium text-neutral-900 dark:text-neutral-100 font-geist leading-snug">Get the complete guide + templates for £29 (was £59)</div>
+            <div className="text-[13px] sm:text-base font-medium text-neutral-900 dark:text-neutral-100 font-geist leading-snug">Get the complete guide + templates for just £10 (was £29)</div>
           </div>
           <div className="sm:ml-auto flex items-center gap-2 w-full sm:w-auto relative z-10">
             <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className="glass-button-primary inline-flex items-center gap-2 rounded-full text-sm font-medium px-4 py-3 sm:py-2 transition w-full sm:w-auto justify-center relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent dark:from-neutral-700/20 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-              <span className="relative z-10">Buy now — £29</span>
+              <span className="relative z-10">Get Launch Offer — £10</span>
               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 -mr-0.5 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
             </a>
           </div>

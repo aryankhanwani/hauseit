@@ -199,8 +199,8 @@ const SimplePDFViewer = ({ isOpen, onClose, pdfUrl }) => {
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Complete Guide</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">£29</span>
-                      <span className="text-sm text-neutral-400 dark:text-neutral-500 line-through">£59</span>
+                      <span className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">£10</span>
+                      <span className="text-sm text-neutral-400 dark:text-neutral-500 line-through">£29</span>
                     </div>
                   </div>
                   <p className="text-xs text-neutral-600 dark:text-neutral-400">One-time purchase • Lifetime access</p>
@@ -237,7 +237,7 @@ const SimplePDFViewer = ({ isOpen, onClose, pdfUrl }) => {
                     }}
                     className="glass-button-primary w-full inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-3 transition-colors"
                   >
-                         Get Full Guide — £29
+                         Get Full Guide — £10
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 -mr-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M5 12h14"></path>
                       <path d="m12 5 7 7-7 7"></path>

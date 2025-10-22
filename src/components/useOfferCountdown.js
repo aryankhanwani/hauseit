@@ -1,37 +1,43 @@
 import { useEffect, useState } from 'react';
 
-export default function useOfferCountdown(storageKey = 'offerCountdownEnd', durationMs = 24 * 60 * 60 * 1000) {
-  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0, remainingMs: durationMs, percentRemaining: 100 });
+export default function useOfferCountdown() {
+  const [timeLeft, setTimeLeft] = useState({ 
+    hours: 0, 
+    minutes: 0, 
+    seconds: 0, 
+    remainingMs: 0, 
+    percentRemaining: 100 
+  });
 
   useEffect(() => {
-    const now = Date.now();
-    let end = parseInt(localStorage.getItem(storageKey) || '0', 10);
-    if (!end || end < now) {
-      end = now + durationMs;
-      localStorage.setItem(storageKey, String(end));
-    }
+    // Hardcoded end date: January 23, 2025 at 23:59:59
+    const endDate = new Date('2026-01-23T23:59:59').getTime();
+    const startDate = new Date('2025-10-23T00:00:00').getTime();
+    const totalDuration = endDate - startDate;
 
     const tick = () => {
-      const remaining = Math.max(0, end - Date.now());
+      const now = Date.now();
+      const remaining = Math.max(0, endDate - now);
+      
       const hours = Math.floor(remaining / (1000 * 60 * 60));
       const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-      const percentRemaining = Math.max(0, Math.min(100, Math.round((remaining / durationMs) * 100)));
-      // Override to show 75% for demo purposes
-      const displayPercent = 75;
-      setTimeLeft({ hours, minutes, seconds, remainingMs: remaining, percentRemaining: displayPercent });
-      if (remaining === 0) {
-        const newEnd = Date.now() + durationMs;
-        localStorage.setItem(storageKey, String(newEnd));
-      }
+      const percentRemaining = Math.max(0, Math.min(100, Math.round((remaining / totalDuration) * 100)));
+
+      setTimeLeft({ 
+        hours, 
+        minutes, 
+        seconds, 
+        remainingMs: remaining, 
+        percentRemaining 
+      });
     };
 
     const interval = setInterval(tick, 1000);
     tick();
+    
     return () => clearInterval(interval);
-  }, [storageKey, durationMs]);
+  }, []);
 
   return timeLeft;
 }
-
-

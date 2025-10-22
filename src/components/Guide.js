@@ -4,8 +4,7 @@ import PDFViewer from './PDFViewer';
 
 const Guide = () => {
   const [isPDFOpen, setIsPDFOpen] = useState(false);
-  const FIFTEEN_DAYS = 15 * 24 * 60 * 60 * 1000;
-  const timeLeft = useOfferCountdown('offerCountdownEnd15', FIFTEEN_DAYS);
+  const timeLeft = useOfferCountdown();
   const checkoutUrl = process.env.REACT_APP_PODIA_CHECKOUT_URL || '#';
 
   const openPDF = () => setIsPDFOpen(true);
@@ -40,7 +39,6 @@ const Guide = () => {
               {/* Enhanced Card Glass Effects */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-white/15 dark:from-neutral-800/50 dark:via-transparent dark:to-neutral-800/20 rounded-2xl"></div>
               <div className="absolute inset-0 bg-gradient-to-tl from-white/30 via-transparent to-white/10 dark:from-neutral-700/40 dark:via-transparent dark:to-neutral-700/15 rounded-2xl"></div>
-              {/* <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/80 to-transparent dark:from-transparent dark:via-neutral-700/80 dark:to-transparent"></div> */}
               <div className="flex flex-col lg:flex-row lg:items-start gap-4 sm:gap-6 relative z-10">
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -51,8 +49,8 @@ const Guide = () => {
 
                   <div className="mt-5 flex items-baseline gap-3">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-4xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100 font-geist">£29</span>
-                      <span className="text-lg text-neutral-400 dark:text-neutral-500 line-through">£59</span>
+                      <span className="text-4xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100 font-geist">£10</span>
+                      <span className="text-lg text-neutral-400 dark:text-neutral-500 line-through">£29</span>
                     </div>
                     <span className="text-xs text-neutral-500 dark:text-neutral-400">one‑time • lifetime access</span>
                   </div>
@@ -67,9 +65,6 @@ const Guide = () => {
                         <li className="flex items-start gap-2"><svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-emerald-500 flex-shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"></path></svg>The Complete 12-Chapter Guide — everything from setup to scaling</li>
                         <li className="flex items-start gap-2"><svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-emerald-500 flex-shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"></path></svg>Compliance Checklist — never miss a legal step</li>
                         <li className="flex items-start gap-2"><svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-emerald-500 flex-shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"></path></svg>Furnishing & Styling Shopping List — know exactly what to buy</li>
-                        {/* <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 bg-neutral-900 dark:bg-neutral-100 rounded-full flex-shrink-0"></span>Listing & Guest Message Templates — plug-and-play text examples</li> */}
-                        {/* <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 bg-neutral-900 dark:bg-neutral-100 rounded-full flex-shrink-0"></span>Guest Experience Blueprint — manage every stage of the stay</li>
-                        <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 bg-neutral-900 dark:bg-neutral-100 rounded-full flex-shrink-0"></span>Income & Expense Tracker (Excel) — built-in formulas and charts</li> */}
                       </ul>
                     </div>
                         <div className="glass-highlight rounded-xl p-4">
@@ -91,7 +86,6 @@ const Guide = () => {
                       {/* Enhanced Purchase Card Glass Effects */}
                       <div className="absolute inset-0 bg-gradient-to-br from-white/50 via-transparent to-white/20 dark:from-neutral-800/60 dark:via-transparent dark:to-neutral-800/30 rounded-xl"></div>
                       <div className="absolute inset-0 bg-gradient-to-tl from-white/40 via-transparent to-white/15 dark:from-neutral-700/50 dark:via-transparent dark:to-neutral-700/25 rounded-xl"></div>
-                      {/* <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-white/80 to-transparent dark:from-transparent dark:via-neutral-700/80 dark:to-transparent"></div> */}
                       <div className="relative z-10 flex flex-col h-full">
                         <div className="w-full h-1.5 bg-neutral-100 dark:bg-neutral-700 rounded-full overflow-hidden mb-3">
                           <div className="h-full bg-red-600 transition-all" style={{ width: `${timeLeft.percentRemaining}%` }}></div>
@@ -108,14 +102,13 @@ const Guide = () => {
 
                         {/* Enhanced Content Section */}
                         <div className="mt-4 space-y-3 flex-1">
-                          <div className="bg-white/20 dark:bg-neutral-800/20 rounded-lg p-3 border border-white/30 dark:border-neutral-700/30">
-                            <div className="flex items-center gap-2 mb-2">
+                          <div className="bg-white/20 dark:bg-neutral-800/20 rounded-lg p-3 border border-white/30 dark:border-neutral-700/30 flex justify-around items-center">
+                            <div className="flex items-center gap-2">
                               <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><circle cx="12" cy="16" r="1"></circle><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                               <span className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 font-geist">Secure Payment</span>
                             </div>
-                            <div className="flex items-center gap-4">
-                              <span className="text-xs text-neutral-600 dark:text-neutral-400">Stripe</span>
-                              <span className="text-xs text-neutral-600 dark:text-neutral-400">PayPal</span>
+                            <div className="flex items-center gap-2">
+                              <img src="/stripe.png" alt="Stripe" className="h-5" />
                             </div>
                           </div>
                         </div>
@@ -123,7 +116,7 @@ const Guide = () => {
                         <div className="mt-4 flex flex-col gap-2">
                           <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className="glass-button-primary inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-2 relative overflow-hidden group">
                             <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent dark:from-neutral-700/20 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-                            <span className="relative z-10">Buy now — £29</span>
+                            <span className="relative z-10">Buy now — £10</span>
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 -mr-0.5 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                           </a>
                           <button onClick={openPDF} className="glass-button inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-2 relative overflow-hidden group">
@@ -158,4 +151,3 @@ const Guide = () => {
 };
 
 export default Guide;
-

@@ -4,7 +4,19 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
   const [pdfLoaded, setPdfLoaded] = useState(false);
   const [showFallback, setShowFallback] = useState(false);
   const [showPurchasePopup, setShowPurchasePopup] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const checkoutUrl = process.env.REACT_APP_PODIA_CHECKOUT_URL || '#';
+
+  useEffect(() => {
+    // Detect mobile devices
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -49,11 +61,60 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
         </div>
 
         {/* PDF Content */}
-        <div className="relative h-full overflow-hidden">
-          {!showFallback ? (
+        <div className="relative h-[calc(100%-60px)] sm:h-[calc(100%-72px)] overflow-hidden">
+          {isMobile ? (
+            // Mobile: Show direct link to open PDF in new tab
+            <div className="h-full flex items-center justify-center p-4 sm:p-8">
+              <div className="text-center max-w-md">
+                <div className="w-16 h-16 mx-auto mb-6 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                  </svg>
+                </div>
+                <h4 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-3">View Sample Pages</h4>
+                <p className="text-neutral-600 dark:text-neutral-300 text-sm mb-6">
+                  For the best reading experience on mobile, we'll open the PDF in a new tab where you can scroll freely through all 10 sample pages.
+                </p>
+                
+                <a 
+                  href={pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass-button-primary inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-6 py-3 transition-colors shadow-lg w-full"
+                >
+                  Open Sample PDF
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 -mr-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <path d="M15 3h6v6"></path>
+                    <path d="M10 14L21 3"></path>
+                  </svg>
+                </a>
+
+                <div className="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-3">What's in the sample:</p>
+                  <div className="grid grid-cols-1 gap-2 text-xs text-neutral-700 dark:text-neutral-300">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0"></span>
+                      Introduction & Guide Overview
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0"></span>
+                      Getting Started Checklist
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0"></span>
+                      Property Assessment Guide
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : !showFallback ? (
+            // Desktop: Show embedded iframe
             <div className="h-full">
               <iframe
-                src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH&page=1&pagemode=none&zoom=100&disableprint=1&disablesave=1`}
+                src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH&page=1&pagemode=none&zoom=100`}
                 className="w-full h-full border-0"
                 title="Sample Guide PDF - Pages 1-10"
                 style={{ minHeight: '400px' }}
@@ -62,7 +123,8 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
               />
             </div>
           ) : (
-            <div className="h-full flex items-center justify-center p-4 sm:p-8">
+            // Fallback view
+            <div className="h-full flex items-center justify-center p-4 sm:p-8 overflow-y-auto">
               <div className="text-center max-w-2xl">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 bg-neutral-100 dark:bg-neutral-800 rounded-full flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 sm:w-10 sm:h-10 text-neutral-600 dark:text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -135,21 +197,14 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
                     </span>
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
-          
-          {/* Mobile-only Open PDF button */}
-          <div className="absolute bottom-0 left-0 right-0 sm:hidden z-20">
-            <div className="bg-gradient-to-t from-white dark:from-neutral-900 via-white/95 dark:via-neutral-900/95 to-transparent p-3">
-              <div className="flex justify-center">
+
                 <a 
                   href={pdfUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="glass-button inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-2 transition-colors shadow-lg"
+                  className="glass-button inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-6 py-3 transition-colors shadow-lg"
                 >
-                  Open in New Tab
+                  Open PDF in New Tab
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 -mr-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                     <path d="M15 3h6v6"></path>
@@ -158,7 +213,7 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
                 </a>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
@@ -197,8 +252,8 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Complete Guide</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">£29</span>
-                      <span className="text-sm text-neutral-400 dark:text-neutral-500 line-through">£59</span>
+                      <span className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">£10</span>
+                      <span className="text-sm text-neutral-400 dark:text-neutral-500 line-through">£29</span>
                     </div>
                   </div>
                   <p className="text-xs text-neutral-600 dark:text-neutral-400">One-time purchase • Lifetime access</p>
@@ -235,7 +290,7 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
                     }}
                     className="glass-button-primary w-full inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-3 transition-colors"
                   >
-                    Get Full Guide — £29
+                    Get Full Guide — £10
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 -mr-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <path d="M5 12h14"></path>
                       <path d="m12 5 7 7-7 7"></path>
