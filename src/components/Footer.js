@@ -81,33 +81,21 @@ const Footer = () => {
               <li><a className="hover:text-neutral-950 dark:hover:text-white transition" href="#guide">Guide</a></li>
               <li><a className="hover:text-neutral-950 dark:hover:text-white transition" href="#why">Why Us</a></li>
               <li><a className="hover:text-neutral-950 dark:hover:text-white transition" href="#trust">Trust</a></li>
-              <li><a className="hover:text-neutral-950 dark:hover:text-white transition" href="#final-cta">Contact</a></li>
             </ul>
           </div>
 
           <div>
             <div className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 font-geist">Legal</div>
             <ul className="mt-3 space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
-              <li><a href="#" className="hover:text-neutral-950 dark:hover:text-white transition">Terms</a></li>
-              <li><a href="#" className="hover:text-neutral-950 dark:hover:text-white transition">Privacy</a></li>
-              <li><a href="#" className="hover:text-neutral-950 dark:hover:text-white transition">Cookies</a></li>
+              <li><a href="#" className="hover:text-neutral-950 dark:hover:text-white transition">Terms of Service</a></li>
+              <li><a href="#" className="hover:text-neutral-950 dark:hover:text-white transition">Privacy Policy</a></li>
             </ul>
           </div>
         </div>
 
         <div className="mt-6 pt-6 border-t border-white/20 dark:border-neutral-800/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 relative z-10">
           <p className="text-xs text-neutral-500 dark:text-neutral-400 font-geist">© {currentYear} Hauseit Ltd. All rights reserved.</p>
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium bg-neutral-50/60 dark:bg-neutral-800/30 glass-frosted rounded-full px-2.5 py-1 text-neutral-700 dark:text-neutral-300 font-geist">
-              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> CMP
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium bg-neutral-50/60 dark:bg-neutral-800/30 glass-frosted rounded-full px-2.5 py-1 text-neutral-700 dark:text-neutral-300 font-geist">
-              <span className="w-1.5 h-1.5 bg-neutral-900 dark:bg-neutral-300 rounded-full"></span> TPO
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium bg-neutral-50/60 dark:bg-neutral-800/30 glass-frosted rounded-full px-2.5 py-1 text-neutral-700 dark:text-neutral-300 font-geist">
-              <span className="w-1.5 h-1.5 bg-indigo-600 rounded-full"></span> ICO
-            </span>
-          </div>
+          
         </div>
       </div>
     </footer>
