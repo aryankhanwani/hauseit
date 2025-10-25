@@ -5,7 +5,7 @@ const Hero = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [volume, setVolume] = useState(1);
+  const [volume, setVolume] = useState(0.5); // Start with 50% volume
   const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef(null);
 
@@ -54,17 +54,21 @@ const Hero = () => {
     const newVolume = parseFloat(e.target.value);
     if (videoRef.current) {
       videoRef.current.volume = newVolume;
+      videoRef.current.muted = false; // Unmute when volume is adjusted
       setVolume(newVolume);
-      setIsMuted(newVolume === 0);
+      setIsMuted(false);
     }
   };
 
   // Toggle mute
   const toggleMute = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-      if (!videoRef.current.muted && volume === 0) {
+      // Toggle mute state
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+      
+      // If unmuting and volume was 0, set to default volume
+      if (!isMuted && volume === 0) {
         videoRef.current.volume = 0.5;
         setVolume(0.5);
       }
@@ -172,15 +176,20 @@ const Hero = () => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
       
+      // Set initial volume
+      videoRef.current.volume = 0.5;
+      videoRef.current.muted = false;
+      
       // Try to autoplay with sound
       const playPromise = videoRef.current.play();
       
       if (playPromise !== undefined) {
         playPromise.catch(error => {
-          // Autoplay was prevented, mute and try again
+          console.log('Autoplay with sound failed, trying muted...');
+          // If autoplay with sound fails, try muted
           videoRef.current.muted = true;
           setIsMuted(true);
-          videoRef.current.play().catch(e => console.log('Autoplay failed:', e));
+          videoRef.current.play().catch(e => console.log('Muted autoplay failed:', e));
         }).then(() => {
           setIsPlaying(true);
         });
@@ -265,7 +274,7 @@ const Hero = () => {
                 loop
                 autoPlay
                 playsInline
-                muted={!isMuted}
+                muted={isMuted}
                 preload="auto"
                 poster=""
                 onClick={togglePlayPause}
