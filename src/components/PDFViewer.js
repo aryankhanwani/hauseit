@@ -48,7 +48,7 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
       <div className="relative w-full max-w-5xl h-full max-h-[95vh] sm:max-h-[90vh] bg-white dark:bg-neutral-900 rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-3 sm:p-4 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900">
-          <h3 className="text-sm sm:text-lg font-semibold text-neutral-900 dark:text-neutral-100 font-geist pr-2">Sample Pages (1-10) - The Complete UK Guide to Airbnb Hosting</h3>
+          <h3 className="text-sm sm:text-lg font-semibold text-neutral-900 dark:text-neutral-100 font-geist pr-2">Sample Pages (1-5) - The Complete UK Guide to Airbnb Hosting</h3>
           <button
             onClick={onClose}
             className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-colors flex-shrink-0"
@@ -74,7 +74,7 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
                 </div>
                 <h4 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-3">View Sample Pages</h4>
                 <p className="text-neutral-600 dark:text-neutral-300 text-sm mb-6">
-                  For the best reading experience on mobile, we'll open the PDF in a new tab where you can scroll freely through all 10 sample pages.
+                  For the best reading experience on mobile, we'll open the PDF in a new tab where you can scroll freely through all 5 sample pages.
                 </p>
                 
                 <a 
@@ -116,11 +116,11 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
               <iframe
                 src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH&page=1&pagemode=none&zoom=100`}
                 className="w-full h-full border-0"
-                title="Sample Guide PDF - Pages 1-10"
+                title="Sample Guide PDF - Pages 1-5"
                 style={{ minHeight: '400px' }}
                 onLoad={() => setPdfLoaded(true)}
                 onError={() => setShowFallback(true)}
-              />
+              />    
             </div>
           ) : (
             // Fallback view
@@ -264,13 +264,14 @@ const PDFViewer = ({ isOpen, onClose, pdfUrl }) => {
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M20 6L9 17l-5-5"/>
                     </svg>
-                    <span>120+ pages of comprehensive content</span>
+                    <span>Compact guide to get you started quickly
+</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M20 6L9 17l-5-5"/>
                     </svg>
-                    <span>Editable templates & checklists</span>
+                    <span>⁠Includes Templates, checklist and income tracker</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

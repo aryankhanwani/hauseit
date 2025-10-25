@@ -97,7 +97,7 @@ const Author = () => {
               <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 font-geist mb-3">Connect with Imran</h3>
               <div className="flex gap-3 flex-wrap">
                 <a 
-                  href="https://instagram.com/imranbashir_hauseit" 
+                  href="https://www.instagram.com/hauseit.co.uk" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="glass-button inline-flex items-center gap-2 rounded-full text-sm font-medium px-4 py-2 transition relative overflow-hidden group"
@@ -108,7 +108,7 @@ const Author = () => {
                   <span className="relative z-10">Instagram</span>
                 </a>
                 <a 
-                  href="https://twitter.com/imranbashir_hauseit" 
+                  href="https://x.com/hauseit_now" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="glass-button inline-flex items-center gap-2 rounded-full text-sm font-medium px-4 py-2 transition relative overflow-hidden group"

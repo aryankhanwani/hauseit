@@ -128,7 +128,7 @@ const Guide = () => {
                           </a>
                           <button onClick={openPDF} className="glass-button inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium px-4 py-2 relative overflow-hidden group">
                             <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent dark:from-neutral-700/20 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-                            <span className="relative z-10">Read sample (10 pages)</span>
+                            <span className="relative z-10">Read sample (5 pages)</span>
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 -mr-0.5 relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                           </button>
                         </div>
@@ -151,7 +151,7 @@ const Guide = () => {
       <PDFViewer 
         isOpen={isPDFOpen} 
         onClose={closePDF} 
-        pdfUrl="/sample-guide-10pages.pdf" 
+        pdfUrl="/sample-guide-5pages.pdf" 
       />
     </section>
   );

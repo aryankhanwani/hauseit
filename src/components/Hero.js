@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 const Hero = () => {
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     // Hardcoded end date: January 23, 2025 at 23:59:59
@@ -23,6 +29,104 @@ const Hero = () => {
     
     return () => clearInterval(interval);
   }, []);
+
+  // Format time in MM:SS format
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
+  // Handle play/pause
+  const togglePlayPause = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+      setIsPlaying(!videoRef.current.paused);
+    }
+  };
+
+  // Handle volume change
+  const handleVolumeChange = (e) => {
+    const newVolume = parseFloat(e.target.value);
+    if (videoRef.current) {
+      videoRef.current.volume = newVolume;
+      setVolume(newVolume);
+      setIsMuted(newVolume === 0);
+    }
+  };
+
+  // Toggle mute
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+      if (!videoRef.current.muted && volume === 0) {
+        videoRef.current.volume = 0.5;
+        setVolume(0.5);
+      }
+    }
+  };
+
+  // Handle touch events for mobile
+  const handleTouchStart = (e) => {
+    if (e.touches.length === 1) {
+      // Single touch - show controls
+      const controls = e.currentTarget.querySelector('.video-controls');
+      if (controls) {
+        controls.classList.add('show-controls');
+        // Hide after 3 seconds of inactivity
+        clearTimeout(window.controlsTimeout);
+        window.controlsTimeout = setTimeout(() => {
+          controls.classList.remove('show-controls');
+        }, 3000);
+      }
+    }
+  };
+
+  // Handle time update
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+    }
+  };
+
+  // Handle progress bar click
+  const handleProgressBarClick = (e) => {
+    if (videoRef.current) {
+      const rect = e.target.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      videoRef.current.currentTime = pos * videoRef.current.duration;
+    }
+  };
+
+  // Toggle fullscreen
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      videoRef.current.requestFullscreen().catch(err => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
+
+  // Handle video end
+  const handleVideoEnd = () => {
+    setIsPlaying(false);
+  };
+
+  // Handle loaded metadata
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration);
+    }
+  };
 
   return (
     <section id="about" className="max-w-7xl sm:px-6 mt-8 mx-auto mb-8 px-4">
@@ -61,25 +165,183 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-white/20 dark:from-neutral-800/50 dark:via-transparent dark:to-neutral-800/30 rounded-2xl"></div>
             <div className="absolute inset-0 bg-gradient-to-tl from-white/30 via-transparent to-white/15 dark:from-neutral-700/40 dark:via-transparent dark:to-neutral-700/25 rounded-2xl"></div>
             
-            <div className="w-full h-[52vh] sm:h-[60vh] relative z-10">
+            <div 
+              className="w-full h-[52vh] sm:h-[60vh] relative group"
+              onTouchStart={handleTouchStart}
+            >
+              {/* Top Right Mute Button */}
+              <button 
+                onClick={toggleMute}
+                className="absolute top-4 right-4 z-20 p-2 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors"
+                aria-label={isMuted || volume === 0 ? 'Unmute' : 'Mute'}
+              >
+                {isMuted || volume === 0 ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="2" y1="2" x2="22" y2="22"></line>
+                    <path d="M18.89 13.23A7.12 7.12 0 0 0 19 12c0-3.88-3.58-7-8-7a8.22 8.22 0 0 0-2.9.52"></path>
+                    <path d="M6 10H5a3 3 0 0 0-3 3v4a3 3 0 0 0 3 3h1"></path>
+                    <path d="M11 15a4 4 0 0 1-4-4v-1c0-1.1.9-2 2-2"></path>
+                    <path d="M15 8.65V6a4 4 0 0 1 2.08-3.5"></path>
+                    <path d="M23 9l-6 6"></path>
+                    <path d="M17 9l6 6"></path>
+                  </svg>
+                ) : volume < 0.5 ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  </svg>
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                )}
+              </button>
+
               <video
+                ref={videoRef}
                 className="w-full h-full rounded-2xl object-cover"
                 title="Guide intro video"
-                autoPlay
-                muted
                 loop
                 playsInline
-                controls
                 preload="metadata"
                 poster=""
+                onClick={togglePlayPause}
+                onTimeUpdate={handleTimeUpdate}
+                onEnded={handleVideoEnd}
+                onLoadedMetadata={handleLoadedMetadata}
               >
                 <source src="/imran-video-1.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
-            </div>
-
-            <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 lg:p-8 z-10">
-              {/* Optional overlay content can go here */}
+              
+              {/* Custom Video Controls */}
+              <div 
+                className="video-controls absolute bottom-0 left-0 right-0 p-2 sm:p-4 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Progress Bar */}
+                <div 
+                  className="relative w-full h-1.5 bg-white/20 rounded-full mb-3 overflow-hidden cursor-pointer"
+                  onClick={handleProgressBarClick}
+                >
+                  <div 
+                    className="absolute left-0 top-0 h-full bg-emerald-400"
+                    style={{ width: `${(currentTime / duration) * 100 || 0}%` }}
+                  ></div>
+                </div>
+                
+                <div className="flex items-center justify-between px-2">
+                  <div className="flex items-center space-x-4">
+                    {/* Play/Pause Button */}
+                    <button 
+                      onClick={togglePlayPause}
+                      className="text-white hover:text-emerald-400 transition-colors"
+                      aria-label={isPlaying ? 'Pause' : 'Play'}
+                    >
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="24" 
+                        height="24" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        className="w-5 h-5"
+                      >
+                        {isPlaying ? (
+                          <>
+                            <rect x="6" y="4" width="4" height="16"/>
+                            <rect x="14" y="4" width="4" height="16"/>
+                          </>
+                        ) : (
+                          <polygon points="5 3 19 12 5 21 5 3"/>
+                        )}
+                      </svg>
+                    </button>
+                    
+                    {/* Time */}
+                    <div className="text-xs text-white/80 font-mono">
+                      <span>{formatTime(currentTime)}</span>
+                      <span className="mx-1">/</span>
+                      <span>{formatTime(duration)}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3">
+                    {/* Volume Control - Hidden on mobile, shown on larger screens */}
+                    <div className="items-center space-x-1 hidden sm:flex">
+                      <button 
+                        onClick={toggleMute}
+                        className="text-white hover:text-emerald-400 transition-colors" 
+                        aria-label={isMuted || volume === 0 ? 'Unmute' : 'Mute'}
+                      >
+                        {isMuted || volume === 0 ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="2" y1="2" x2="22" y2="22"></line>
+                            <path d="M18.89 13.23A7.12 7.12 0 0 0 19 12c0-3.88-3.58-7-8-7a8.22 8.22 0 0 0-2.9.52"></path>
+                            <path d="M6 10H5a3 3 0 0 0-3 3v4a3 3 0 0 0 3 3h1"></path>
+                            <path d="M11 15a4 4 0 0 1-4-4v-1c0-1.1.9-2 2-2"></path>
+                            <path d="M15 8.65V6a4 4 0 0 1 2.08-3.5"></path>
+                            <path d="M23 9l-6 6"></path>
+                            <path d="M17 9l6 6"></path>
+                          </svg>
+                        ) : volume < 0.5 ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                          </svg>
+                        ) : (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                          </svg>
+                        )}
+                      </button>
+                      <input 
+                        type="range" 
+                        min="0" 
+                        max="1" 
+                        step="0.01" 
+                        value={volume}
+                        onChange={handleVolumeChange}
+                        className="w-20 accent-emerald-400"
+                        aria-label="Volume"
+                      />
+                    </div>
+                    
+                    {/* Fullscreen Button */}
+                    <button 
+                      onClick={toggleFullscreen}
+                      className="text-white hover:text-emerald-400 transition-colors" 
+                      aria-label="Fullscreen"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Play Button Overlay - Always visible on mobile when paused */}
+              {!isPlaying && (
+                <div 
+                  className="absolute inset-0 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    togglePlayPause();
+                  }}
+                >
+                  <div className="p-3 sm:p-4 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 sm:w-10 sm:h-10">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
