@@ -176,23 +176,37 @@ const Hero = () => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
       
-      // Set initial volume
-      videoRef.current.volume = 0.5;
-      videoRef.current.muted = false;
+      // Check if mobile device
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       
-      // Try to autoplay with sound
-      const playPromise = videoRef.current.play();
-      
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log('Autoplay with sound failed, trying muted...');
-          // If autoplay with sound fails, try muted
-          videoRef.current.muted = true;
-          setIsMuted(true);
-          videoRef.current.play().catch(e => console.log('Muted autoplay failed:', e));
-        }).then(() => {
-          setIsPlaying(true);
-        });
+      if (isMobile) {
+        // On mobile, start muted by default to ensure autoplay works
+        videoRef.current.volume = 0.5;
+        videoRef.current.muted = true;
+        setIsMuted(true);
+        
+        // Try to autoplay muted
+        videoRef.current.play().catch(e => console.log('Mobile autoplay failed:', e));
+        setIsPlaying(true);
+      } else {
+        // On desktop, try to play with sound first
+        videoRef.current.volume = 0.5;
+        videoRef.current.muted = false;
+        
+        const playPromise = videoRef.current.play();
+        
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => setIsPlaying(true))
+            .catch(error => {
+              console.log('Autoplay with sound failed, trying muted...');
+              videoRef.current.muted = true;
+              setIsMuted(true);
+              return videoRef.current.play();
+            })
+            .then(() => setIsPlaying(true))
+            .catch(e => console.log('Autoplay failed:', e));
+        }
       }
     }
   };
@@ -417,20 +431,26 @@ const Hero = () => {
               {/* Play Button Overlay - Always visible on mobile when paused */}
               {!isPlaying && (
                 <div 
-                  className="absolute inset-0 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300"
+                  className="absolute inset-0 flex items-center justify-center bg-black/30 md:bg-black/20"
                   onClick={(e) => {
                     e.stopPropagation();
-                    // On mobile, unmute when user explicitly presses play
-                    if (isMuted) {
+                    // On mobile, unmute when the user taps to play
+                    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                    if (isMobile && videoRef.current) {
                       videoRef.current.muted = false;
                       setIsMuted(false);
                     }
                     togglePlayPause();
                   }}
                 >
-                  <div className="p-3 sm:p-4 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 sm:w-10 sm:h-10">
-                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  <div className="p-3 sm:p-4 bg-black/60 hover:bg-black/80 rounded-full text-white transition-all transform hover:scale-110 cursor-pointer">
+                    <svg 
+                      className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16" 
+                      fill="currentColor" 
+                      viewBox="0 0 24 24" 
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M8 5v14l11-7z" />
                     </svg>
                   </div>
                 </div>
