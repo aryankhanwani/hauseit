@@ -199,37 +199,23 @@ const Hero = () => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
       
-      // Check if mobile device
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      // Set initial volume
+      videoRef.current.volume = 0.5;
+      videoRef.current.muted = false;
       
-      if (isMobile) {
-        // On mobile, start muted by default to ensure autoplay works
-        videoRef.current.volume = 0.5;
-        videoRef.current.muted = true;
-        setIsMuted(true);
-        
-        // Show a play button overlay that the user needs to tap to start
-        setIsPlaying(false);
-      } else {
-        // On desktop, try to play with sound
-        videoRef.current.volume = 0.5;
-        videoRef.current.muted = false;
-        setIsMuted(false);
-        
-        const playPromise = videoRef.current.play();
-        
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => setIsPlaying(true))
-            .catch(error => {
-              console.log('Autoplay with sound failed, trying muted...');
-              videoRef.current.muted = true;
-              setIsMuted(true);
-              return videoRef.current.play();
-            })
-            .then(() => setIsPlaying(true))
-            .catch(e => console.log('Autoplay failed:', e));
-        }
+      // Try to autoplay with sound
+      const playPromise = videoRef.current.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log('Autoplay with sound failed, trying muted...');
+          // If autoplay with sound fails, try muted
+          videoRef.current.muted = true;
+          setIsMuted(true);
+          videoRef.current.play().catch(e => console.log('Muted autoplay failed:', e));
+        }).then(() => {
+          setIsPlaying(true);
+        });
       }
     }
   };
@@ -368,17 +354,7 @@ const Hero = () => {
                   <div className="flex items-center space-x-4">
                     {/* Play/Pause Button */}
                     <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // On mobile, ensure we unmute when play is pressed
-                        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                          if (isMuted) {
-                            videoRef.current.muted = false;
-                            setIsMuted(false);
-                          }
-                        }
-                        togglePlayPause();
-                      }}
+                      onClick={togglePlayPause}
                       className="text-white hover:text-emerald-400 transition-colors"
                       aria-label={isPlaying ? 'Pause' : 'Play'}
                     >
@@ -414,8 +390,8 @@ const Hero = () => {
                   </div>
                   
                   <div className="flex items-center space-x-3">
-                    {/* Volume Control - Always show on mobile */}
-                    <div className="items-center space-x-1 flex">
+                    {/* Volume Control - Hidden on mobile, shown on larger screens */}
+                    <div className="items-center space-x-1 hidden sm:flex">
                       <button 
                         onClick={toggleMute}
                         className="text-white hover:text-emerald-400 transition-colors" 
