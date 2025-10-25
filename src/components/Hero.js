@@ -144,24 +144,47 @@ const Hero = () => {
     setIsSeeking(false);
   };
 
-  // Toggle fullscreen with cross-browser support
+  // Toggle fullscreen with cross-browser support and mobile handling
   const toggleFullscreen = () => {
     const elem = videoRef.current;
-    if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) { /* Safari */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE11 */
-        elem.msRequestFullscreen();
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // For mobile, we need to handle fullscreen differently
+    if (isMobile) {
+      if (videoRef.current.webkitEnterFullscreen) {
+        // iOS Safari
+        videoRef.current.webkitEnterFullscreen();
+      } else if (videoRef.current.requestFullscreen) {
+        videoRef.current.requestFullscreen();
+      } else if (videoRef.current.webkitRequestFullscreen) {
+        videoRef.current.webkitRequestFullscreen();
+      } else if (videoRef.current.msRequestFullscreen) {
+        videoRef.current.msRequestFullscreen();
+      }
+      
+      // On mobile, unmute when entering fullscreen
+      if (videoRef.current.muted) {
+        videoRef.current.muted = false;
+        setIsMuted(false);
       }
     } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) { /* Safari */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { /* IE11 */
-        document.msExitFullscreen();
+      // Desktop fullscreen handling
+      if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          elem.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
       }
     }
   };
@@ -185,13 +208,13 @@ const Hero = () => {
         videoRef.current.muted = true;
         setIsMuted(true);
         
-        // Try to autoplay muted
-        videoRef.current.play().catch(e => console.log('Mobile autoplay failed:', e));
-        setIsPlaying(true);
+        // Show a play button overlay that the user needs to tap to start
+        setIsPlaying(false);
       } else {
-        // On desktop, try to play with sound first
+        // On desktop, try to play with sound
         videoRef.current.volume = 0.5;
         videoRef.current.muted = false;
+        setIsMuted(false);
         
         const playPromise = videoRef.current.play();
         
@@ -291,15 +314,23 @@ const Hero = () => {
                 muted={isMuted}
                 preload="auto"
                 poster=""
-                onClick={togglePlayPause}
+                onClick={(e) => {
+                  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    // On mobile, toggle fullscreen when video is clicked
+                    toggleFullscreen();
+                  } else {
+                    togglePlayPause();
+                  }
+                }}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleVideoEnd}
                 onLoadedMetadata={handleLoadedMetadata}
                 webkit-playsinline="true"
-                x5-playsinline=""
+                x5-playsinline="true"
                 x5-video-player-type="h5"
-                x5-video-orientation="landscape"
-                x5-video-player-fullscreen=""
+                x5-video-player-fullscreen="true"
+                x5-video-ignore-metadata=""
+                x5-video-orientation="portrait"
               >
                 <source src="/imran-video-1.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
@@ -337,7 +368,17 @@ const Hero = () => {
                   <div className="flex items-center space-x-4">
                     {/* Play/Pause Button */}
                     <button 
-                      onClick={togglePlayPause}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // On mobile, ensure we unmute when play is pressed
+                        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                          if (isMuted) {
+                            videoRef.current.muted = false;
+                            setIsMuted(false);
+                          }
+                        }
+                        togglePlayPause();
+                      }}
                       className="text-white hover:text-emerald-400 transition-colors"
                       aria-label={isPlaying ? 'Pause' : 'Play'}
                     >
@@ -373,8 +414,8 @@ const Hero = () => {
                   </div>
                   
                   <div className="flex items-center space-x-3">
-                    {/* Volume Control - Hidden on mobile, shown on larger screens */}
-                    <div className="items-center space-x-1 hidden sm:flex">
+                    {/* Volume Control - Always show on mobile */}
+                    <div className="items-center space-x-1 flex">
                       <button 
                         onClick={toggleMute}
                         className="text-white hover:text-emerald-400 transition-colors" 
@@ -431,26 +472,20 @@ const Hero = () => {
               {/* Play Button Overlay - Always visible on mobile when paused */}
               {!isPlaying && (
                 <div 
-                  className="absolute inset-0 flex items-center justify-center bg-black/30 md:bg-black/20"
+                  className="absolute inset-0 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300"
                   onClick={(e) => {
                     e.stopPropagation();
-                    // On mobile, unmute when the user taps to play
-                    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                    if (isMobile && videoRef.current) {
+                    // On mobile, unmute when user explicitly presses play
+                    if (isMuted) {
                       videoRef.current.muted = false;
                       setIsMuted(false);
                     }
                     togglePlayPause();
                   }}
                 >
-                  <div className="p-3 sm:p-4 bg-black/60 hover:bg-black/80 rounded-full text-white transition-all transform hover:scale-110 cursor-pointer">
-                    <svg 
-                      className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16" 
-                      fill="currentColor" 
-                      viewBox="0 0 24 24" 
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M8 5v14l11-7z" />
+                  <div className="p-3 sm:p-4 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 sm:w-10 sm:h-10">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
                     </svg>
                   </div>
                 </div>
