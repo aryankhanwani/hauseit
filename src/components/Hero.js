@@ -94,24 +94,70 @@ const Hero = () => {
     }
   };
 
-  // Handle progress bar click
-  const handleProgressBarClick = (e) => {
-    if (videoRef.current) {
-      const rect = e.target.getBoundingClientRect();
+  // Handle progress bar interaction
+  const [isSeeking, setIsSeeking] = useState(false);
+  const progressBarRef = useRef(null);
+
+  const handleProgressBarMouseDown = () => {
+    setIsSeeking(true);
+  };
+
+  const handleProgressBarMouseUp = (e) => {
+    if (videoRef.current && progressBarRef.current) {
+      const rect = progressBarRef.current.getBoundingClientRect();
       const pos = (e.clientX - rect.left) / rect.width;
+      videoRef.current.currentTime = pos * videoRef.current.duration;
+    }
+    setIsSeeking(false);
+  };
+
+  const handleProgressBarMouseMove = (e) => {
+    if (isSeeking && videoRef.current && progressBarRef.current) {
+      const rect = progressBarRef.current.getBoundingClientRect();
+      let pos = (e.clientX - rect.left) / rect.width;
+      pos = Math.max(0, Math.min(1, pos)); // Clamp between 0 and 1
       videoRef.current.currentTime = pos * videoRef.current.duration;
     }
   };
 
-  // Toggle fullscreen
+  // Handle touch events for progress bar
+  const handleProgressBarTouchStart = (e) => {
+    setIsSeeking(true);
+    handleProgressBarTouchMove(e);
+  };
+
+  const handleProgressBarTouchMove = (e) => {
+    if (videoRef.current && progressBarRef.current) {
+      const touch = e.touches[0];
+      const rect = progressBarRef.current.getBoundingClientRect();
+      let pos = (touch.clientX - rect.left) / rect.width;
+      pos = Math.max(0, Math.min(1, pos)); // Clamp between 0 and 1
+      videoRef.current.currentTime = pos * videoRef.current.duration;
+    }
+  };
+
+  const handleProgressBarTouchEnd = () => {
+    setIsSeeking(false);
+  };
+
+  // Toggle fullscreen with cross-browser support
   const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      videoRef.current.requestFullscreen().catch(err => {
-        console.error(`Error attempting to enable fullscreen: ${err.message}`);
-      });
+    const elem = videoRef.current;
+    if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+      }
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) { /* Safari */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE11 */
+        document.msExitFullscreen();
       }
     }
   };
@@ -121,10 +167,24 @@ const Hero = () => {
     setIsPlaying(false);
   };
 
-  // Handle loaded metadata
+  // Handle loaded metadata and attempt autoplay
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
+      
+      // Try to autoplay with sound
+      const playPromise = videoRef.current.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // Autoplay was prevented, mute and try again
+          videoRef.current.muted = true;
+          setIsMuted(true);
+          videoRef.current.play().catch(e => console.log('Autoplay failed:', e));
+        }).then(() => {
+          setIsPlaying(true);
+        });
+      }
     }
   };
 
@@ -205,12 +265,18 @@ const Hero = () => {
                 loop
                 autoPlay
                 playsInline
-                preload="metadata"
+                muted={!isMuted}
+                preload="auto"
                 poster=""
                 onClick={togglePlayPause}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleVideoEnd}
                 onLoadedMetadata={handleLoadedMetadata}
+                webkit-playsinline="true"
+                x5-playsinline=""
+                x5-video-player-type="h5"
+                x5-video-orientation="landscape"
+                x5-video-player-fullscreen=""
               >
                 <source src="/imran-video-1.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
@@ -223,13 +289,25 @@ const Hero = () => {
               >
                 {/* Progress Bar */}
                 <div 
-                  className="relative w-full h-1.5 bg-white/20 rounded-full mb-3 overflow-hidden cursor-pointer"
-                  onClick={handleProgressBarClick}
+                  ref={progressBarRef}
+                  className="relative w-full h-2 sm:h-1.5 bg-white/20 rounded-full mb-3 overflow-hidden cursor-pointer"
+                  onMouseDown={handleProgressBarMouseDown}
+                  onMouseMove={isSeeking ? handleProgressBarMouseMove : null}
+                  onMouseUp={handleProgressBarMouseUp}
+                  onMouseLeave={() => setIsSeeking(false)}
+                  onTouchStart={handleProgressBarTouchStart}
+                  onTouchMove={handleProgressBarTouchMove}
+                  onTouchEnd={handleProgressBarTouchEnd}
                 >
                   <div 
-                    className="absolute left-0 top-0 h-full bg-emerald-400"
-                    style={{ width: `${(currentTime / duration) * 100 || 0}%` }}
-                  ></div>
+                    className="absolute left-0 top-0 h-full bg-emerald-400 transition-all duration-200 ease-out"
+                    style={{ 
+                      width: `${(currentTime / duration) * 100 || 0}%`,
+                      backgroundColor: isSeeking ? '#10b981' : '#34d399' // Slightly lighter green when seeking
+                    }}
+                  >
+                    <div className="absolute right-0 top-1/2 w-3 h-3 -mt-1.5 -mr-1.5 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  </div>
                 </div>
                 
                 <div className="flex items-center justify-between px-2">
@@ -333,6 +411,11 @@ const Hero = () => {
                   className="absolute inset-0 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300"
                   onClick={(e) => {
                     e.stopPropagation();
+                    // On mobile, unmute when user explicitly presses play
+                    if (isMuted) {
+                      videoRef.current.muted = false;
+                      setIsMuted(false);
+                    }
                     togglePlayPause();
                   }}
                 >
