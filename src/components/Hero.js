@@ -203,6 +203,7 @@ const Hero = () => {
                 className="w-full h-full rounded-2xl object-cover"
                 title="Guide intro video"
                 loop
+                autoPlay
                 playsInline
                 preload="metadata"
                 poster=""
