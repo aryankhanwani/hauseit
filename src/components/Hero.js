@@ -194,7 +194,7 @@ const Hero = () => {
     setIsPlaying(false);
   };
 
-  // Handle loaded metadata and attempt autoplay
+  // Handle loaded metadata
   const handleLoadedMetadata = () => {
     if (videoRef.current) {
       setDuration(videoRef.current.duration);
@@ -202,21 +202,6 @@ const Hero = () => {
       // Set initial volume
       videoRef.current.volume = 0.5;
       videoRef.current.muted = false;
-      
-      // Try to autoplay with sound
-      const playPromise = videoRef.current.play();
-      
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log('Autoplay with sound failed, trying muted...');
-          // If autoplay with sound fails, try muted
-          videoRef.current.muted = true;
-          setIsMuted(true);
-          videoRef.current.play().catch(e => console.log('Muted autoplay failed:', e));
-        }).then(() => {
-          setIsPlaying(true);
-        });
-      }
     }
   };
 
@@ -295,7 +280,6 @@ const Hero = () => {
                 className="w-full h-full rounded-2xl object-cover"
                 title="Guide intro video"
                 loop
-                autoPlay
                 playsInline
                 muted={isMuted}
                 preload="auto"
