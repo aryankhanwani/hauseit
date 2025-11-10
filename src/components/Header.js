@@ -1,12 +1,6 @@
 import React from 'react';
 
 const Header = () => {
-  const toggleTheme = () => {
-    const root = document.documentElement;
-    const isDark = root.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-
-  };
 
   React.useEffect(() => {
     localStorage.setItem('theme','dark');

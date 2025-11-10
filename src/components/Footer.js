@@ -87,8 +87,8 @@ const Footer = () => {
           <div>
             <div className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 font-geist">Legal</div>
             <ul className="mt-3 space-y-2 text-sm text-neutral-700 dark:text-neutral-300">
-              <li><a href="#" className="hover:text-neutral-950 dark:hover:text-white transition">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-neutral-950 dark:hover:text-white transition">Privacy Policy</a></li>
+              <li><button className="hover:text-neutral-950 dark:hover:text-white transition cursor-pointer text-left" onClick={() => {}}>Terms of Service</button></li>
+              <li><button className="hover:text-neutral-950 dark:hover:text-white transition cursor-pointer text-left" onClick={() => {}}>Privacy Policy</button></li>
             </ul>
           </div>
         </div>

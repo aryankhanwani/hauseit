@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 
 const Hero = () => {
-  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -9,26 +8,6 @@ const Hero = () => {
   const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef(null);
 
-  useEffect(() => {
-    // Hardcoded end date: January 23, 2025 at 23:59:59
-    const endDate = new Date('2065-01-23T23:59:59').getTime();
-
-    const tick = () => {
-      const now = Date.now();
-      const remaining = Math.max(0, endDate - now);
-      
-      const hours = Math.floor(remaining / (1000 * 60 * 60));
-      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-      
-      setTimeLeft({ hours, minutes, seconds });
-    };
-
-    const interval = setInterval(tick, 1000);
-    tick();
-    
-    return () => clearInterval(interval);
-  }, []);
 
   // Format time in MM:SS format
   const formatTime = (timeInSeconds) => {
