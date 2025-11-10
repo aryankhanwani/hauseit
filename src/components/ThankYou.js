@@ -177,7 +177,7 @@ const ThankYou = () => {
             </div>
             
             <a 
-              href="/" 
+              href="https://hauseit.co.uk/airbnb" 
               className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-neutral-950 dark:bg-neutral-100 text-white dark:text-neutral-950 rounded-full font-medium font-geist hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors text-base sm:text-lg"
             >
               Return to Home
