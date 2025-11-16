@@ -11,19 +11,18 @@ const ThankYou = () => {
     }
     window.gtag = gtag;
     window.gtag('js', new Date());
-    window.gtag('config', 'G-SWJS36S7GW');
 
     // Load Google tag (gtag.js)
-    const script1 = document.createElement('script');
-    script1.async = true;
-    script1.src = 'https://www.googletagmanager.com/gtag/js?id=G-SWJS36S7GW';
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17102791111';
     
     // Wait for script to load before sending conversion event
-    script1.onload = () => {
-      // Send conversion event after script loads
+    script.onload = () => {
+      // Event snippet for Purchase conversion page
       if (window.gtag) {
         window.gtag('event', 'conversion', {
-          'send_to': 'AW-17697809832/Upi2CJG4trgbEKjL_PZB',
+          'send_to': 'AW-17102791111/dZFdCIvEjsEbEMfDn9s_',
           'value': 1.0,
           'currency': 'GBP',
           'transaction_id': ''
@@ -31,13 +30,13 @@ const ThankYou = () => {
       }
     };
     
-    document.head.appendChild(script1);
+    document.head.appendChild(script);
 
     // Cleanup function
     return () => {
       // Remove the script when component unmounts
-      if (script1.parentNode) {
-        script1.parentNode.removeChild(script1);
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
       }
     };
   }, []);
